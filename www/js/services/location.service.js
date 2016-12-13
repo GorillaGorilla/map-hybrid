@@ -6,12 +6,15 @@ angular.module('login').service('Location',function($cordovaGeolocation){
 
   var options = {timeout: 10000, enableHighAccuracy: true};
 
-  var getPosition = function(){
+  var getPosition = function(callback){
     $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         // alert('location gotten  ' + latLng.lat() + ' ' + latLng.lng());
-      lastLocation = latLng
+      lastLocation = latLng;
+      if(callback){
+        callback(null, lastLocation);
+      }
     }, function(error){
       console.log("Could not get location");
     });
