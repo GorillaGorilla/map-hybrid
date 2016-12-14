@@ -4,7 +4,7 @@
 
 
 
-angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeolocation, Socket, Location, UserGameIds, GameState, Renderer) {
+angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeolocation, Socket, Location, UserGameIds, GameState, Renderer, UIState) {
   console.log('loading map module');
   var options = {timeout: 10000, enableHighAccuracy: true},
     latLng = Location.currentLocation(),
@@ -103,14 +103,32 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
   Socket.on('gameState', function(state){
     // console.log('game state', state);
     GameState.setGameState(state);
-    $scope.score = state;
+      var player = state.players.filter(function(play){
+      return play.username === UserGameIds.getUsername();
+    });
+    $scope.playerHealth = player[0].health;
     Renderer.render(state);
     delayPositionCall();
 
   });
 
+  $scope.username = UserGameIds.getUsername();
+
+  $scope.UI_STATE =  UIState.getState();
+
+  if($scope.UI_STATE === 'VIEW'){
+    Renderer.renderTargetFinder({
+      strokeOpacity: 0,
+      fillOpacity: 0
+    });
+
+  }else if($scope.UI_STATE === 'SEND_BATTERY'){
 
 
+  }else if ($scope.UI_STATE === 'SEND_BOMBER'){
+
+
+  }
 
 
   $scope.leaveGame = function(){

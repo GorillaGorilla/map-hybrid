@@ -40,7 +40,7 @@ angular.module('starter').service('Renderer', function(GameState, UserGameIds){
 
     deleteMarkers();
     var state = GameState.getGameState();
-    console.log('state',state);
+    // console.log('state',state);
     state.players.forEach(function(player){
       renderPlayer(player);
       if(player.username === UserGameIds.username){

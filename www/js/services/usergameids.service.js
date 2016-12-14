@@ -31,3 +31,38 @@ angular.module('login').service('UserGameIds', function(Socket){
     isConnected: isConnected
   };
 });
+
+
+angular.module('starter').service('UIState', function(Socket, Renderer){
+  var state = 'VIEW';
+  var setBatteryTargettingState = function(){
+    state = "SEND_BATTERY";
+    Renderer.renderTargetFinder({
+      strokeOpacity: 0.8,
+      fillOpacity: 0.2
+    });
+  };
+
+  var setBomberTargettingState = function(){
+    state = "SEND_BOMBER";
+    Renderer.renderTargetFinder({
+      strokeOpacity: 0.8,
+      fillOpacity: 0.2
+    });
+  };
+
+  var setViewState = function(){
+    state = "VIEW";
+    Renderer.renderTargetFinder({
+      strokeOpacity: 0,
+      fillOpacity: 0
+    });
+  };
+
+  return {
+    getState: function(){return state},
+    setAATargetState: setBatteryTargettingState,
+    setBomberTargetState: setBomberTargettingState,
+    setViewState: setViewState
+  };
+});

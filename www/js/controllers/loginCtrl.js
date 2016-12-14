@@ -18,10 +18,10 @@ angular.module('login').controller('LoginCtrl',function($scope, $state, $cordova
           Socket.on('game connected',function(response){
               UserGameIds.setGameId(response.gameId);
               // set state to go to map/game screen
-              $state.go('game');
+              $state.go('app.game');
               // $scope.locationEvent(response.gameId);
-              console.log('game', response.gameId);
-            $state.go('game');
+              console.log('app.game', response.gameId);
+            // $state.go('menu');
           });
           Socket.on('waiting for game', function(data){
             $state.go('waiting');

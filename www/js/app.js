@@ -58,11 +58,22 @@ angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
   .config(function($stateProvider, $urlRouterProvider) {
 
     $stateProvider
-      .state('game', {
+      .state('app.game', {
         url: '/game',
-        templateUrl: 'templates/map.html',
-        controller: 'MapCtrl'
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/map.html'
+            ,controller: 'MapCtrl'
+          }
+        }
       })
+      .state('app', {
+        url: '/menu',
+        abstract: true,
+        templateUrl: 'templates/menu.html'
+        ,controller: 'AppCtrl'
+      })
+
       .state('login',{
         url: '/',
         templateUrl: 'templates/login.html',
