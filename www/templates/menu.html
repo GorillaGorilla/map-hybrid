@@ -17,25 +17,33 @@
       <h1 class="title">Controls</h1>
     </ion-header-bar>
     <ion-content>
-      <ion-list>
+      <ion-list ng-show="screen === 'map'">
 
-        <ion-item menu-close ng-click="setBomberTargettingState()">
-          Target for Bomber
-        </ion-item>
-        <ion-item menu-close >
+        <ion-item menu-close ng-click="setBomberTargetingState()">
+        Target for Bomber
+      </ion-item>
+        <ion-item menu-close ng-click="setAATargetingState()">
           Target for Mobile AA
         </ion-item>
-        <ion-item menu-close >
+        <ion-item menu-close ng-click="setViewState()">
+          Stop Targeting
+        </ion-item>
+        <ion-item menu-close ng-click="buyMobileAA()">
           Buy Mobile AA
         </ion-item>
-        <ion-item menu-close >
+        <ion-item menu-close ng-click="buyBomber()">
           Buy Bomber
         </ion-item>
-        <ion-item menu-close >
+        <ion-item menu-close ng-click="goStats()">
           View players
         </ion-item>
-        <ion-item menu-close >
+        <ion-item menu-close ng-click="leaveGame()">
           Leave game permanently
+        </ion-item>
+      </ion-list>
+      <ion-list ng-show="screen === 'stats'">
+        <ion-item menu-close ng-click="goMap()">
+          Back to Map
         </ion-item>
       </ion-list>
     </ion-content>

@@ -2,7 +2,7 @@
  * Created by frederickmacgregor on 14/12/2016.
  */
 var app = angular.module('starter')
-  .controller('AppCtrl', function($scope, $ionicModal, $timeout, UIState) {
+  .controller('AppCtrl', function($scope, $ionicModal, $state, $timeout, UIState, Socket, UserGameIds) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -12,26 +12,36 @@ var app = angular.module('starter')
     //});
 
     // Form data for the login modal
+    $scope.screen = 'map';
+
     $scope.loginData = {};
 
-    // Create the login modal that we will use later
-    // $ionicModal.fromTemplateUrl('templates/login.html', {
-    //   scope: $scope
-    // }).then(function(modal) {
-    //   $scope.modal = modal;
-    // });
+    $scope.setBomberTargetingState = UIState.setBomberTargetState;
 
-    // Triggered in the login modal to close it
-    // $scope.closeLogin = function() {
-    //   $scope.modal.hide();
-    // };
+    $scope.setAATargetingState = UIState.setAATargetState;
 
-    // Open the login modal
-    // $scope.login = function() {
-    //   $scope.modal.show();
-    // };
+    $scope.setViewState = UIState.setViewState;
 
-    $scope.setBomberTargettingState = UIState.setBomberTargetState;
+    $scope.buyBomber = function(){
+      var obj = { gameId: UserGameIds.getGameId(),
+        input:{username: UserGameIds.getUsername(),
+          action: 'BUY_BOMBER'}};
+      Socket.emit('gameInputMessage',obj);
+    };
+
+    $scope.buyMobileAA = function(){
+      console.log('buy AA');
+      var obj = { gameId: UserGameIds.getGameId(),
+        input:{username: UserGameIds.getUsername(),
+          action: 'BUY_AA'}};
+      Socket.emit('gameInputMessage',obj);
+    };
+
+    $scope.leaveGame = function(){
+      Socket.emit('leave game');
+      Socket.removeListener('gameState');
+      AuthService.logout();
+    };
 
     // Perform the login action when the user submits the login form
     $scope.doLogin = function() {
@@ -43,4 +53,15 @@ var app = angular.module('starter')
         $scope.closeLogin();
       }, 1000);
     };
+
+    $scope.goStats = function(){
+      // $scope.screen = 'stats';   //seems to automatically replace menu with back screen
+      $state.go('app.stats');
+    };
+
+    $scope.goMap = function(){
+      $scope.screen = 'map';
+      $state.go('app.game');
+    };
+
   })

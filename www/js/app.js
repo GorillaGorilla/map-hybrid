@@ -17,38 +17,38 @@ angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
       // a much nicer keyboard experience.
       cordova.plugins.Keyboard.disableScroll(true);
     }
-    // if (window.cordova.plugins.diagnostic){
-    //   // cordova.ready event to check cordova has loaded before we try to use cordova
-    //   cordova.plugins.diagnostic.isLocationAuthorized(function(authorized){
-    //     console.log("Location is " + (authorized ? "authorized" : "unauthorized"));
-    //     if (!authorized){
-    //       cordova.plugins.diagnostic.requestLocationAuthorization(function(status){
-    //         switch(status){
-    //           case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
-    //             console.log("Permission not requested");
-    //             break;
-    //           case cordova.plugins.diagnostic.permissionStatus.GRANTED:
-    //             console.log("Permission granted");
-    //             break;
-    //           case cordova.plugins.diagnostic.permissionStatus.DENIED:
-    //             alert("Permission denied");
-    //             break;
-    //           case cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS:
-    //             alert("Permission permanently denied");
-    //             break;
-    //         }
-    //       }, function(error){
-    //         alert(error);
-    //       });
-    //
-    //
-    //     }
-    //
-    //
-    //   }, function(error){
-    //     console.error("The following error occurred: "+error);
-    //   });
-    // }
+    if (window.cordova.plugins.diagnostic){
+      // cordova.ready event to check cordova has loaded before we try to use cordova
+      cordova.plugins.diagnostic.isLocationAuthorized(function(authorized){
+        console.log("Location is " + (authorized ? "authorized" : "unauthorized"));
+        if (!authorized){
+          cordova.plugins.diagnostic.requestLocationAuthorization(function(status){
+            switch(status){
+              case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
+                console.log("Permission not requested");
+                break;
+              case cordova.plugins.diagnostic.permissionStatus.GRANTED:
+                console.log("Permission granted");
+                break;
+              case cordova.plugins.diagnostic.permissionStatus.DENIED:
+                alert("Permission denied");
+                break;
+              case cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS:
+                alert("Permission permanently denied");
+                break;
+            }
+          }, function(error){
+            alert(error);
+          });
+
+
+        }
+
+
+      }, function(error){
+        console.error("The following error occurred: "+error);
+      });
+    }
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
@@ -64,6 +64,15 @@ angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
           'menuContent': {
             templateUrl: 'templates/map.html'
             ,controller: 'MapCtrl'
+          }
+        }
+      })
+      .state('app.stats', {
+        url: '/stats',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/stats.html'
+            ,controller: 'StatCtrl'
           }
         }
       })

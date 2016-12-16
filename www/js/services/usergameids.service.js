@@ -35,7 +35,7 @@ angular.module('login').service('UserGameIds', function(Socket){
 
 angular.module('starter').service('UIState', function(Socket, Renderer){
   var state = 'VIEW';
-  var setBatteryTargettingState = function(){
+  var setBatteryTargetingState = function(){
     state = "SEND_BATTERY";
     Renderer.renderTargetFinder({
       strokeOpacity: 0.8,
@@ -43,7 +43,7 @@ angular.module('starter').service('UIState', function(Socket, Renderer){
     });
   };
 
-  var setBomberTargettingState = function(){
+  var setBomberTargetingState = function(){
     state = "SEND_BOMBER";
     Renderer.renderTargetFinder({
       strokeOpacity: 0.8,
@@ -61,8 +61,9 @@ angular.module('starter').service('UIState', function(Socket, Renderer){
 
   return {
     getState: function(){return state},
-    setAATargetState: setBatteryTargettingState,
-    setBomberTargetState: setBomberTargettingState,
-    setViewState: setViewState
+    setAATargetState: setBatteryTargetingState,
+    setBomberTargetState: setBomberTargetingState,
+    setViewState: setViewState,
+    state: state
   };
 });

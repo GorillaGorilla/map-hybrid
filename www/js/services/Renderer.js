@@ -127,22 +127,15 @@ angular.module('starter').service('Renderer', function(GameState, UserGameIds){
     { "x_axis": 70, "y_axis": 70, "radius": 20, "color" : "purple"},
     { "x_axis": 110, "y_axis": 100, "radius": 20, "color" : "red"}];
 
-  var svg = d3.select('ui-view').append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    // .attr("align", "right")
-    // .attr("position", "absolute");
-    // .append("g")
-    // .attr("transform", "translate(" + translation.x + "," + translation.y + ")");
-  //
-  // var circles = svg.selectAll("circle")
-  //                           .data(jsonCircles)
-  //                           .enter()
-  //                           .append("circle");
-  var circle = svg.append("circle")
-                           .attr("cx", 30)
-                           .attr("cy", 30)
-                          .attr("r", 20);
+  // var svg = d3.select('ui-view').append("svg")
+  //   .attr("width", width)
+  //   .attr("height", height);
+
+
+  // var circle = svg.append("circle")
+  //                          .attr("cx", 30)
+  //                          .attr("cy", 30)
+  //                         .attr("r", 20);
 
   // var svg = d3.select("body").append("svg")
   //   .fillColor('yellow')

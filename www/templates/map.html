@@ -2,12 +2,6 @@
   <ion-content>
     <div id="map" data-tap-disabled="true"></div>
     <div id="controls">
-      <button class="button button-block button-assertive" ng-show="UI_STATE === 'VIEW'" ng-click="setBomberTargettingState()" >
-        Target for Bomber
-      </button>
-      <button class="button button-block button-assertive" ng-show="UI_STATE === 'VIEW'" ng-click="setBatteryTargettingState()" >
-        Target for AA Gun
-      </button>
       <button class="button button-block button-assertive" ng-show="UI_STATE === 'SEND_BOMBER'" ng-click="sendBomber()" >
         Send Bomber
       </button>
@@ -18,11 +12,55 @@
         Back
       </button>
       <br>
-      <button class="button button-block button-assertive" ng-click="leaveGame()" >
-        Leave game
-      </button>
-      <br>
-      <h>Username: </h><p>{{username}}</p><h>Health: </h><p>{{playerHealth}}</p>
+      <table class="statsTable">
+        <tr>
+          <th>
+            Username:
+          </th>
+          <th>
+            Health:
+          </th>
+          <th>
+            Bombers in action:
+          </th>
+          <th>
+            Bombers Ready:
+          </th>
+          <th>
+            AA in action:
+          </th>
+          <th>
+            AA Ready:
+          </th>
+          <th>
+            Money
+          </th>
+        </tr>
+        <tr>
+          <td>
+            {{username}}
+          </td>
+          <td>
+            {{playerHealth}}
+          </td>
+          <td>
+            {{state.bomber_in_action}}
+          </td>
+          <td>
+            {{state.bomber_ready}}
+          </td>
+          <td>
+            {{state.AA_deployed}}
+          </td>
+          <td>
+            {{state.AA_ready}}
+          </td>
+          <td>
+            {{state.money}}
+          </td>
+        </tr>
+      </table>
+     <!--<h></h><p></p><h></h><p></p>-->
     </div>
   </ion-content>
 

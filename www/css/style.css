@@ -12,11 +12,9 @@
   height: 20%;
 }
 
-svg .floatTL{
+
+.statsTable, tr, th, td{
   width:100%;
-  height:40%;
-  position:absolute;
-  top:0px;
-  left:0px;
-  fill:"yellow";
+  border: 1px solid black;
+  text-align: center;
 }

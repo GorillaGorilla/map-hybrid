@@ -54,6 +54,7 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
         action: 'SEND_BOMBER',
         target: {x: targetLatLng.lat(), y: targetLatLng.lng()}}};
     Socket.emit('gameInputMessage',obj);
+    UIState.setViewState();
   };
 
     $scope.sendAABattery = function(){
@@ -64,33 +65,14 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
                 action: 'SEND_BATTERY',
                 destination: {x: targetLatLng.lat(), y: targetLatLng.lng()}}};
         Socket.emit('gameInputMessage',obj);
+      UIState.setViewState();
     };
 
   //Wait until the map is loaded
 
 
   locationEvent();  // used to be in 'wait for map idle event..'
-    // google.maps.event.addListenerOnce($scope.map, 'center_changed', function(){
-    //     Renderer.renderTargetFinder({
-    //       center: $scope.map.getCenter()
-    //     });
-    // });
 
-    $scope.setBomberTargettingState = function(){
-      $scope.UI_STATE = "SEND_BOMBER";
-      Renderer.renderTargetFinder({
-          strokeOpacity: 0.8,
-          fillOpacity: 0.2
-      });
-    };
-
-    $scope.setBatteryTargettingState = function(){
-        $scope.UI_STATE = "SEND_BATTERY";
-      Renderer.renderTargetFinder({
-            strokeOpacity: 0.8,
-            fillOpacity: 0.2
-        });
-    };
     $scope.setViewState = function(){
         $scope.UI_STATE = "VIEW";
       Renderer.renderTargetFinder({
@@ -106,30 +88,16 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
       var player = state.players.filter(function(play){
       return play.username === UserGameIds.getUsername();
     });
+
     $scope.playerHealth = player[0].health;
+    $scope.state = player[0];
+    $scope.UI_STATE =  UIState.getState();
     Renderer.render(state);
     delayPositionCall();
 
   });
 
   $scope.username = UserGameIds.getUsername();
-
-  $scope.UI_STATE =  UIState.getState();
-
-  if($scope.UI_STATE === 'VIEW'){
-    Renderer.renderTargetFinder({
-      strokeOpacity: 0,
-      fillOpacity: 0
-    });
-
-  }else if($scope.UI_STATE === 'SEND_BATTERY'){
-
-
-  }else if ($scope.UI_STATE === 'SEND_BOMBER'){
-
-
-  }
-
 
   $scope.leaveGame = function(){
     Socket.emit('leave game');
@@ -139,5 +107,12 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
 
   console.log('latLng', latLng);
   $scope.map = Renderer.initMap(latLng);
+
+});
+
+
+angular.module('map').controller('StatCtrl', function($scope, GameState){
+
+  $scope.players = GameState.getGameState().players;
 
 });
