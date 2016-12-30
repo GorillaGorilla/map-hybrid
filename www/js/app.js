@@ -17,7 +17,8 @@ angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
       // a much nicer keyboard experience.
       cordova.plugins.Keyboard.disableScroll(true);
     }
-    if (window.cordova.plugins.diagnostic){
+    if (window.cordova && window.cordova.plugins.diagnostic){
+      // alert('cordovaloaded');
       // cordova.ready event to check cordova has loaded before we try to use cordova
       cordova.plugins.diagnostic.isLocationAuthorized(function(authorized){
         console.log("Location is " + (authorized ? "authorized" : "unauthorized"));
@@ -73,6 +74,15 @@ angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
           'menuContent': {
             templateUrl: 'templates/stats.html'
             ,controller: 'StatCtrl'
+          }
+        }
+      })
+      .state('app.chat', {
+        url: '/chat',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/chat.html'
+            ,controller: 'ChatCtrl'
           }
         }
       })

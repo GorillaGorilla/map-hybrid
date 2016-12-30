@@ -7,8 +7,9 @@ angular.module('login').service('Location',function($cordovaGeolocation){
   var options = {timeout: 10000, enableHighAccuracy: true};
 
   var getPosition = function(callback){
+    console.log('getting position');
     $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-
+      console.log("position got");
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         // alert('location gotten  ' + latLng.lat() + ' ' + latLng.lng());
       lastLocation = latLng;
@@ -31,7 +32,7 @@ angular.module('login').service('Location',function($cordovaGeolocation){
 
   var getX = function(){
     if (lastLocation){
-      return lastLocation.lat();
+      return lastLocation.lng();
     }
     console.log('no location');
 
@@ -39,7 +40,7 @@ angular.module('login').service('Location',function($cordovaGeolocation){
 
   var getY = function(){
     if(lastLocation){
-      return lastLocation.lng();
+      return lastLocation.lat();
     }
     console.log('no location');
   };

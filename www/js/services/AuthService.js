@@ -49,6 +49,8 @@ angular.module('starter')
       return $q(function(resolve, reject) {
         console.log("register called");
         console.log(JSON.stringify(user));
+        // alert(JSON.stringify(user));
+        // alert(API_ENDPOINT.url);
         $http({
           method: 'POST',
           url: API_ENDPOINT.url + '/api/signup',
@@ -61,9 +63,10 @@ angular.module('starter')
             reject(result.data.msg);
           }
         }, function(err) {
+          // alert(err);
           reject(err);
           // console.log("err",JSON.stringify(err));
-          // alert(err);
+          //
         });
       });
     };

@@ -41,6 +41,7 @@ var app = angular.module('starter')
       Socket.emit('leave game');
       Socket.removeListener('gameState');
       AuthService.logout();
+      $state.go('login');
     };
 
     // Perform the login action when the user submits the login form
@@ -57,6 +58,10 @@ var app = angular.module('starter')
     $scope.goStats = function(){
       // $scope.screen = 'stats';   //seems to automatically replace menu with back screen
       $state.go('app.stats');
+    };
+
+    $scope.goToChat = function(){
+      $state.go('app.chat');
     };
 
     $scope.goMap = function(){

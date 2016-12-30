@@ -17,9 +17,11 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
         AA_TANK: "img/AA_TANK.png",
         FLAK: "img/FLAK.png"
     };
-    var locationEvent = function(){
+    var locationEvent = function(err, lastLocation){
+
+      var obj = lastLocation ? {username : UserGameIds.getUsername(), x : lastLocation.lng(), y: lastLocation.lat()} : {username : UserGameIds.getUsername(), x : Location.getX(), y: Location.getY()} ;
         console.log('location', Location.getX(), Location.getY());
-        Socket.emit('location', {gameId: UserGameIds.getGameId(), location: {username : UserGameIds.getUsername(), x : Location.getX(), y: Location.getY()}});
+        Socket.emit('location', {gameId: UserGameIds.getGameId(), location: obj});
     };
     $scope.UI_STATE = 'VIEW';  //view, send_bomber, send_AA
 
@@ -29,7 +31,7 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
   var delayPositionCall = function(){
     if(!locationQueued){
       setTimeout(function(){
-        Location.getPosition(locationEvent());
+        Location.getPosition(locationEvent);
 
       }, 45000);
       locationQueued = true;
@@ -52,7 +54,7 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
     var obj = { gameId: UserGameIds.getGameId(),
       input:{username: UserGameIds.getUsername(),
         action: 'SEND_BOMBER',
-        target: {x: targetLatLng.lat(), y: targetLatLng.lng()}}};
+        target: {x: targetLatLng.lng(), y: targetLatLng.lat()}}};
     Socket.emit('gameInputMessage',obj);
     UIState.setViewState();
   };
@@ -63,7 +65,7 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
         var obj = { gameId: UserGameIds.getGameId(),
             input:{username: UserGameIds.getUsername(),
                 action: 'SEND_BATTERY',
-                destination: {x: targetLatLng.lat(), y: targetLatLng.lng()}}};
+                destination: {x: targetLatLng.lng(), y: targetLatLng.lat()}}};
         Socket.emit('gameInputMessage',obj);
       UIState.setViewState();
     };
@@ -81,6 +83,11 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
         });
     };
 
+  Socket.on('control points', function(data){
+    console.log('control points event', data);
+    controlPoints = data.points;
+    Renderer.setCPs(controlPoints);
+  });
 
   Socket.on('gameState', function(state){
     // console.log('game state', state);

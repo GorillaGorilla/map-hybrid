@@ -1,0 +1,21 @@
+<ion-view title="">
+  <ion-content>
+    <div class="list">
+      <label class="item item-input item-floating-label">
+        <div class="item item-text-wrap" ng-repeat="message in messages" ><b>{{message.username}}: </b>{{message.message}} </div>
+      </label>
+
+    </div>
+    <label class="item item-input item-floating-label">
+      <input type="text" placeholder="Enter message" ng-model="message.text">
+    </label>
+    <div class="padding">
+      <button class="button button-block button-balanced" ng-click="send()">
+        Send
+      </button>
+    </div>
+    <!-- quick'n'dirty fix to keep footer from overlapping -->
+    <div><br><br></div>
+
+  </ion-content>
+</ion-view>
