@@ -9,7 +9,7 @@ angular.module('starter').service('Renderer', function(GameState, UserGameIds, S
     player: "img/player_icon.png",
     enemy: "img/colonel2.png",
     BOMBER: "img/plane.png",
-    AA_TANK: "img/AA_TANK.png",
+    MOBILE_AA: "img/AA_TANK.png",
     FLAK: "img/FLAK.png"
   },
     targetFinder = null,
@@ -39,24 +39,91 @@ angular.module('starter').service('Renderer', function(GameState, UserGameIds, S
     });
   }
 
+  obj = {
+    id: 'xx24xxx',
+    x : 1,
+    y: 50,
+    type: 'BOMBER'
+  };
+
+  var markerMap = {
+
+  };
+
   function render(){
 
-    deleteMarkers();
+    deleteMarkers();  // needs to be changed to only delete markers for assets that no longer exist
     var state = GameState.getGameState();
     // console.log('state',state);
+
     state.players.forEach(function(player){
-      renderPlayer(player);
-      if(player.username === UserGameIds.username){
-      }
+      markerMap[player.id] ? updateMarker(player) : createMarker(player);
 
     });
     state.assets.forEach(function(asset){
-      var assetLatLng = new google.maps.LatLng(asset.y, asset.x);
-      addAsset(assetLatLng, asset.type);
+      markerMap[asset.id] ? updateMarker(asset) : createMarker(asset);
     });
+
+    deleteOldMarkers(state);
     targetFinder.setOptions({
       center: map.getCenter()
     });
+
+    console.log('state after render',state);
+
+
+  }
+
+  function updateMarker(gameObject){
+    markerMap[gameObject.id].setOptions({
+      position : new google.maps.LatLng(gameObject.y, gameObject.x)
+    });
+  }
+
+  function createMarker(gameObject){
+    var opts = {
+      position: new google.maps.LatLng(gameObject.y, gameObject.x),
+      map: map
+    };
+    var icon;
+    if (gameObject.username){
+      icon = icons[ gameObject.username === UserGameIds.getUsername() ? 'player' : 'enemy'];
+    }else if(gameObject.type){
+      icon = icons[gameObject.type];
+    }
+
+    if (icon){
+      opts.icon = icon;
+    }
+    markerMap[gameObject.id] = new google.maps.Marker(opts);
+  }
+
+  function deleteOldMarkers(state){
+    for (var m in markerMap){
+      if (markerMap[m]){
+        if(!stateContains(state, m)){
+          console.log('m', m);
+          console.log('markerMap[m]', markerMap[m]);
+          markerMap[m].setMap(null);
+          delete markerMap[m];
+        }
+      }
+
+    }
+  }
+
+  function stateContains(state, id){
+    var found= false;
+    found = state.assets.some(function(a){
+      return a.id === id;
+    });
+    if (found){
+      return true;
+    }
+    found = state.players.some(function(a){
+      return a.id === id;
+    });
+    return found;
 
   }
 

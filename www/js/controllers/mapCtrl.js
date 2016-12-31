@@ -20,7 +20,7 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
     var locationEvent = function(err, lastLocation){
 
       var obj = lastLocation ? {username : UserGameIds.getUsername(), x : lastLocation.lng(), y: lastLocation.lat()} : {username : UserGameIds.getUsername(), x : Location.getX(), y: Location.getY()} ;
-        console.log('location', Location.getX(), Location.getY());
+        console.log('location event', obj);
         Socket.emit('location', {gameId: UserGameIds.getGameId(), location: obj});
     };
     $scope.UI_STATE = 'VIEW';  //view, send_bomber, send_AA

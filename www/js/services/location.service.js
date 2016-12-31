@@ -1,7 +1,7 @@
 /**
  * Created by frederickmacgregor on 26/11/2016.
  */
-angular.module('login').service('Location',function($cordovaGeolocation){
+angular.module('login').service('Location',function($cordovaGeolocation, Socket){
   var lastLocation = null;
 
   var options = {timeout: 10000, enableHighAccuracy: true};
@@ -13,7 +13,10 @@ angular.module('login').service('Location',function($cordovaGeolocation){
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         // alert('location gotten  ' + latLng.lat() + ' ' + latLng.lng());
       lastLocation = latLng;
+
+
       if(callback){
+        console.log("callback exists");
         callback(null, lastLocation);
       }
     }, function(error){
