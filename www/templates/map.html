@@ -3,10 +3,10 @@
     <div id="map" data-tap-disabled="true"></div>
     <div id="controls">
       <button class="button button-block button-assertive" ng-show="UI_STATE === 'SEND_BOMBER'" ng-click="sendBomber()" >
-        Send Bomber
+        Click here to send a plane to bomb circle on the map
       </button>
       <button class="button button-block button-assertive" ng-show="UI_STATE === 'SEND_BATTERY'" ng-click="sendAABattery()" >
-        Send AA Gun
+        Click here to deploy mobile AA to circle on the map
       </button>
       <button class="button button-block button-assertive" ng-show="UI_STATE !== 'VIEW'" ng-click="setViewState()" >
         Back
@@ -35,6 +35,9 @@
           <th>
             Money
           </th>
+          <th>
+            Score
+          </th>
         </tr>
         <tr>
           <td>
@@ -57,6 +60,9 @@
           </td>
           <td>
             {{state.money}}
+          </td>
+          <td>
+            {{player.points | number : 1}}
           </td>
         </tr>
       </table>

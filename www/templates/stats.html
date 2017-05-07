@@ -12,16 +12,14 @@
           Bombers in action:
         </th>
         <th>
-          Bombers Ready:
-        </th>
-        <th>
           AA in action:
         </th>
+
         <th>
-          AA Ready:
-        </th>
+        Money
+      </th>
         <th>
-          Money
+          Score
         </th>
       </tr>
       <tr ng-repeat="player in players">
@@ -34,17 +32,16 @@
         <td>
           {{player.bomber_in_action}}
         </td>
-        <td>
-          {{player.bomber_ready}}
-        </td>
+
         <td>
           {{player.AA_deployed}}
         </td>
-        <td>
-          {{player.AA_ready}}
-        </td>
+
         <td>
           {{player.money}}
+        </td>
+        <td>
+          {{player.points | number : 1}}
         </td>
       </tr>
     </table>

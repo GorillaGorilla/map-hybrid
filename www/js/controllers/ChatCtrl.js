@@ -14,6 +14,7 @@ angular.module('starter').controller('ChatCtrl', function($scope, Socket, $state
   $scope.send = function(){
     console.log('send message', $scope.message.text);
     Socket.emit('new message', {
+      gameId : UserGameIds.getGameId(),
       username: UserGameIds.getUsername(),
       message: $scope.message.text
     });

@@ -1,10 +1,11 @@
 <ion-view title="">
   <ion-content>
+    <div scroll-glue>
     <div class="list">
       <label class="item item-input item-floating-label">
         <div class="item item-text-wrap" ng-repeat="message in messages" ><b>{{message.username}}: </b>{{message.message}} </div>
       </label>
-
+    </div>
     </div>
     <label class="item item-input item-floating-label">
       <input type="text" placeholder="Enter message" ng-model="message.text">

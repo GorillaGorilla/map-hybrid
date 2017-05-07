@@ -18,7 +18,8 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
         FLAK: "img/FLAK.png"
     };
     var locationEvent = function(err, lastLocation){
-
+      // format =  { gameId: '2da1e608-36e4-434f-bcd5-6b31aa64a85f',
+        // location: { username: 'Test', x: -0.05667340000002241, y: 51.538354 } }
       var obj = lastLocation ? {username : UserGameIds.getUsername(), x : lastLocation.lng(), y: lastLocation.lat()} : {username : UserGameIds.getUsername(), x : Location.getX(), y: Location.getY()} ;
         console.log('location event', obj);
         Socket.emit('location', {gameId: UserGameIds.getGameId(), location: obj});
@@ -30,9 +31,9 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
 
   var delayPositionCall = function(){
     if(!locationQueued){
-      setTimeout(function(){
-        Location.getPosition(locationEvent);
 
+      setTimeout(function(){
+        locationEvent();
       }, 45000);
       locationQueued = true;
     }
@@ -45,12 +46,12 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
     Location.getPosition();
   }
 
-
+  Location.init();
 
 
   $scope.sendBomber = function(){
     console.log("send Bomber");
-    var targetLatLng = $scope.map.getCenter();
+    var targetLatLng = Renderer.getTarget();
     var obj = { gameId: UserGameIds.getGameId(),
       input:{username: UserGameIds.getUsername(),
         action: 'SEND_BOMBER',
@@ -61,7 +62,7 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
 
     $scope.sendAABattery = function(){
         console.log("send Battery");
-        var targetLatLng = $scope.map.getCenter();
+        var targetLatLng = Renderer.getTarget();
         var obj = { gameId: UserGameIds.getGameId(),
             input:{username: UserGameIds.getUsername(),
                 action: 'SEND_BATTERY',
@@ -76,7 +77,7 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
   locationEvent();  // used to be in 'wait for map idle event..'
 
     $scope.setViewState = function(){
-        $scope.UI_STATE = "VIEW";
+        UIState.setViewState();
       Renderer.renderTargetFinder({
             strokeOpacity: 0,
             fillOpacity: 0
@@ -100,7 +101,7 @@ angular.module('map').controller('MapCtrl', function($scope, $state, $cordovaGeo
     $scope.state = player[0];
     $scope.UI_STATE =  UIState.getState();
     Renderer.render(state);
-    delayPositionCall();
+    // delayPositionCall();  revoed as now sending positions from within location service
 
   });
 

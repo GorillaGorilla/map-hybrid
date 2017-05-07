@@ -3,10 +3,14 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
+var bgGeo;
 
-.run(function($ionicPlatform) {
+angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core','luegg.directives'])
+
+.run(['$ionicPlatform','Location',  function($ionicPlatform, Location) {
+
   $ionicPlatform.ready(function() {
+
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -22,6 +26,9 @@ angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
       // cordova.ready event to check cordova has loaded before we try to use cordova
       cordova.plugins.diagnostic.isLocationAuthorized(function(authorized){
         console.log("Location is " + (authorized ? "authorized" : "unauthorized"));
+
+
+
         if (!authorized){
           cordova.plugins.diagnostic.requestLocationAuthorization(function(status){
             switch(status){
@@ -30,6 +37,11 @@ angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
                 break;
               case cordova.plugins.diagnostic.permissionStatus.GRANTED:
                 console.log("Permission granted");
+                window.navigator.geolocation.getCurrentPosition(function(location) {
+                  console.log('Location from Phonegap');
+
+                  bgGeo = window.cordova.plugins.backgroundGeoLocation;
+                });
                 break;
               case cordova.plugins.diagnostic.permissionStatus.DENIED:
                 alert("Permission denied");
@@ -43,6 +55,9 @@ angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
           });
 
 
+        }else{
+
+
         }
 
 
@@ -50,11 +65,19 @@ angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
         console.error("The following error occurred: "+error);
       });
     }
+
+    if (window && window.navigator.geolocation && window.cordova && window.cordova.plugins.backgroundGeoLocation){
+
+    }
+
+
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
-  });
-})
+    Location.getPosition();
+  }
+)}])
+
 
   .config(function($stateProvider, $urlRouterProvider) {
 
@@ -81,8 +104,8 @@ angular.module('starter', ['ionic','ngCordova','login' ,'map', 'core'])
         url: '/chat',
         views: {
           'menuContent': {
-            templateUrl: 'templates/chat.html'
-            ,controller: 'ChatCtrl'
+            templateUrl: 'templates/chat.html',
+            controller: 'ChatCtrl'
           }
         }
       })

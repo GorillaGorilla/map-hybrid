@@ -7,7 +7,7 @@ angular.module('login').service('UserGameIds', function(Socket){
     userId = null,
     connected = false;
   var setUsername = function(name){
-    alert('setting username  ' +  name);
+    // alert('setting username  ' +  name);
     username = name;
   };
   var getGameId = function(){
@@ -41,6 +41,8 @@ angular.module('starter').service('UIState', function(Socket, Renderer){
       strokeOpacity: 0.8,
       fillOpacity: 0.2
     });
+
+    Renderer.setClickTargeting();
   };
 
   var setBomberTargetingState = function(){
@@ -49,6 +51,8 @@ angular.module('starter').service('UIState', function(Socket, Renderer){
       strokeOpacity: 0.8,
       fillOpacity: 0.2
     });
+
+    Renderer.setClickTargeting();
   };
 
   var setViewState = function(){
@@ -57,6 +61,20 @@ angular.module('starter').service('UIState', function(Socket, Renderer){
       strokeOpacity: 0,
       fillOpacity: 0
     });
+
+    Renderer.removeClickTargeting();
+
+  };
+
+
+  var selectPlayerState = function(playerId){
+    state = "SELECTED_PLAYER";
+    Renderer.setMarkerFilter(playerId);
+
+  };
+
+  var unselectPlayer = function(){
+
   };
 
   return {
